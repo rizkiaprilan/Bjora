@@ -26,7 +26,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/question';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -42,6 +42,6 @@ class LoginController extends Controller
     {
         Auth::logout();
 
-        return redirect('/question');
+        return redirect('/');
     }
 }

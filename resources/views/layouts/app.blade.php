@@ -26,7 +26,7 @@
 
             <ul style="list-style:  none">
                 <li class="nav-item">
-                    <a class="navbar-brand" href="/question">
+                    <a class="navbar-brand" href="/">
                         <span class="bjora">Bjora</span>
                     </a>
 
@@ -49,7 +49,7 @@
 
                     @elseif(Auth::user()->role == 'member')
                         <li class="nav-item">
-                            <a href="question/{{Auth::user()->id}} " class="nav-link">
+                            <a href="/MyQuestion/{{Auth::user()->id}}" class="nav-link">
                                 <span class="text-white">My Question</span>
                             </a>
                         </li>
@@ -93,7 +93,7 @@
                     @else
                         @if(!Auth::user() or Auth::user()->role == 'member')
                             <li class="nav-item">
-                                <a href="{{route('question.create')}}" class="nav-link">
+                                <a href="/MyQuestion/create" class="nav-link">
                                     <button class="btn btn-danger">
                                         <span class="text-white">Add Question</span>
                                     </button>

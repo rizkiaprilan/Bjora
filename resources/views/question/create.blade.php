@@ -12,7 +12,7 @@
                     <div class="card-header">{{ __('Add Question') }}</div>
 
                     <div class="card-body">
-                        <form method="POST" action="{{route('question.store')}}">
+                        <form method="POST" action="/MyQuestion/add">
                             @csrf
 
                             <div class="form-group row">

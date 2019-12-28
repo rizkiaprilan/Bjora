@@ -12,8 +12,9 @@
                     <div class="card-header">{{ __('Update Question') }}</div>
 
                     <div class="card-body">
-                        <form method="POST" action="{{route('question.update')}}">
+                        <form method="POST" action="/MyQuestion/{{$data->id}}/update">
                             @csrf
+                            @method('PUT')
 
                             <div class="form-group row">
                                 <div class="col-md-7 offset-md-2">
@@ -32,7 +33,7 @@
                                 <div class="col-md-7 offset-md-2">
                                     <select class="form-control "
                                             name="topic">
-                                        <option disabled selected hidden>{{$data->topic}}</option>
+                                        <option disabled selected hidden >Select a Topic</option>
                                         @foreach($topic as $t)
                                             <option value="{{$t->topic}}">{{$t->topic}}</option>
                                         @endforeach

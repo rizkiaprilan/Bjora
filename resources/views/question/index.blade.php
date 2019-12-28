@@ -63,9 +63,11 @@
                                 </tr>
                                 <tr class="table-borderless">
                                     <td>
-                                        <button class="btn btn-danger">
-                                            Answer
-                                        </button>
+                                        <a href="/MyQuestion/{{$d->id}}/answer">
+                                            <button class="btn btn-danger">
+                                                Answer
+                                            </button>
+                                        </a>
                                     </td>
                                 </tr>
                             </table>

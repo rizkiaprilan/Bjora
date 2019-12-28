@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Answer;
 use App\Question;
 use App\Topic;
 use App\User;
@@ -59,7 +60,7 @@ class QuestionControllers extends Controller
 
         ]);
 
-        return redirect('/question');
+        return redirect('/');
     }
 
     /**
@@ -97,7 +98,7 @@ class QuestionControllers extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request,$id)
     {
         $request->validate([
             'question' => ['required'],
@@ -105,7 +106,7 @@ class QuestionControllers extends Controller
 
         ]);
 
-        DB::table('questions')->update([
+        DB::table('questions')->where('id','=',$id)->update([
             'question' => $request->question,
             'name' => Auth::user()->name,
             'user_id' => Auth::user()->id,
@@ -114,7 +115,7 @@ class QuestionControllers extends Controller
 
         ]);
 
-        return redirect('/question');
+        return redirect('/MyQuestion/'.Auth::user()->id);
     }
 
     /**
@@ -125,7 +126,9 @@ class QuestionControllers extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data = Question::find($id);
+        $data->Delete();
+        return redirect('/MyQuestion/'.Auth::user()->id);
     }
 
     public function search(Request $request)
@@ -137,4 +140,58 @@ class QuestionControllers extends Controller
             'data' => $data,
         ]);
     }
+
+    public function answer($id){
+        $answer = Answer::where('question_id','=',$id)->get();
+        $data = Question::where('id','=',$id)->first();
+//        dd($answer);
+
+        return view('question.answer', [
+            'answer' => $answer,
+            'data' => $data,
+        ]);
+    }
+
+    public function add(Request $request)
+    {
+        $request->validate([
+            'answer' => ['required'],
+        ]);
+
+        DB::table('answers')->insert([
+            'answer' => $request->answer,
+            'question_id' => $request->questionId,
+            'user_id' => Auth::user()->id,
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+
+        ]);
+
+        return redirect('/MyQuestion/'.$request->questionId.'/answer');
+    }
+
+    public function destroyanswer($id)
+    {
+        $data = Answer::find($id);
+        $dest = $data->question_id;
+        $data->Delete();
+        return redirect('/MyQuestion/'.$dest.'/answer');
+    }
+
+    public function switchstatus($id)
+    {
+        $data = Question::where('id','=',$id)->first();
+        if ($data->status == 'open'){
+            $data->update([
+                'status'=>'close'
+            ]);
+        }else{
+            $data->update([
+                'status'=>'open'
+            ]);
+        }
+        $dest = $data->id;
+
+        return redirect('/MyQuestion/'.$dest.'/answer');
+    }
+
 }

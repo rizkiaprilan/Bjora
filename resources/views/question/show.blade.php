@@ -16,14 +16,19 @@
                                     <td colspan="2">
                                         <b>{{{$d->topic}}}</b>&nbsp;
                                         @if($d->status == 'open')
-                                            <button class="btn" style="background: greenyellow">
-                                                Open
-                                            </button>
-                                        @elseif($d->status == 'close')
-                                            <button class="btn" style="background: orangered">
-                                                Close
-                                            </button>
+                                            <a href="/MyQuestion/{{$d->id}}/switchstatus">
+                                                <button class="btn" style="background: lawngreen">
+                                                    {{$d->status}}
+                                                </button>
+                                            </a>
+                                        @else
+                                            <a href="/MyQuestion/{{$d->id}}/switchstatus">
+                                                <button class="btn" style="background: orange">
+                                                    {{$d->status}}
+                                                </button>
+                                            </a>
                                         @endif
+
                                     </td>
 
                                 </tr>
@@ -51,23 +56,30 @@
                                 </tr>
                                 <tr class="table-borderless">
                                     <td colspan="2">
-                                        <button class="btn btn-primary">
-                                            See Answer
-                                        </button>
-                                        <a href="question/{{$d->id}}/edit">
+                                        <a href="{{$d->id}}/answer">
+                                            <button class="btn btn-primary">
+                                                See Answer
+                                            </button>
+                                        </a>
+                                        <a href="/MyQuestion/{{$d->id}}/edit">
                                             <button class="btn btn-warning">
                                                 Edit
                                             </button>
                                         </a>
+                                        <a href="/MyQuestion/{{$d->id}}/delete">
+                                            <button class="btn btn-danger">
+                                                Delete
+                                            </button>
+                                        </a>
 
-                                        <button class="btn btn-danger">
-                                            Delete
-                                        </button>
                                     </td>
 
                                 </tr>
                             </table>
                         @endforeach
+                        @if($data->count() == 0)
+                            <label class="text-danger">You don't have any question yet</label>
+                        @endif
                         {{$data->links()}}
                     </div>
                 </div>
