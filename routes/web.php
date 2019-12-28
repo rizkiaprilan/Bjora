@@ -11,6 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Auth::routes();
+
+Route::resource('question','QuestionControllers');
+Route::get('/search', 'QuestionControllers@search')->name('search');
+
