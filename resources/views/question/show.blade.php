@@ -28,9 +28,7 @@
                                                 </button>
                                             </a>
                                         @endif
-
                                     </td>
-
                                 </tr>
                                 <tr class="table-borderless">
                                     <td colspan="3">

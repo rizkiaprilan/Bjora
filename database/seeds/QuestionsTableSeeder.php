@@ -25,7 +25,7 @@ class QuestionsTableSeeder extends Seeder
                 'topic' => $d['topic'],
                 'status' => $d['status'],
                 'question' => $d['question'],
-                'created_at' => \Carbon\Carbon::now()->format('Y-m-d H:i:s'),
+                'created_at' => \Carbon\Carbon::now('Asia/Jakarta')->format('Y-m-d H:i:s'),
 
             ]);
         }

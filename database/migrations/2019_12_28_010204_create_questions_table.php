@@ -18,10 +18,11 @@ class CreateQuestionsTable extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->string('topic');
             $table->string('name');
-            $table->string('status')->nullable('open');
-            $table->string('question');
+            $table->string('status')->default('open');
+            $table->longText('question');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
+            $table->softDeletes();
 
         });
     }

@@ -13,7 +13,6 @@
 
 Auth::routes();
 
-//Route::resource('question','QuestionControllers');
 Route::get('/search', 'QuestionControllers@search')->name('search');
 
 Route::get('/', 'QuestionControllers@index');
@@ -28,6 +27,23 @@ Route::get('/MyQuestion/{id}/switchstatus', 'QuestionControllers@switchstatus');
 Route::get('/MyQuestion/{id}/edit', 'QuestionControllers@edit');
 Route::put('/MyQuestion/{id}/update', 'QuestionControllers@update');
 Route::get('/MyQuestion/{id}/delete', 'QuestionControllers@destroy');
+
+Route::get('/MyQuestion/{id}/viewprofile', 'ProfileControllers@viewprofile');
+Route::get('/MyQuestion/{id}/editprofile', 'ProfileControllers@editprofile');
+Route::post('/MyQuestion/updateprofile', 'ProfileControllers@updateprofile');
+
+
+Route::post('/MyQuestion/message', 'ProfileControllers@messagestore');
+Route::get('/MyQuestion/{id}/viewmessage', 'ProfileControllers@viewmessage');
+Route::get('/MyQuestion/{id}/destroymessage', 'ProfileControllers@destroymessage');
+
+Route::resource('User','ManageUserControllers');
+
+Route::resource('Question','ManageQuestionControllers');
+Route::get('/Question/{id}/switchstatus', 'ManageQuestionControllers@switchstatus');
+
+Route::resource('Topic','ManageTopicControllers');
+
 
 
 

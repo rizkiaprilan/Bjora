@@ -18,7 +18,7 @@ class QuestionControllers extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index()   //menampilkan seluruh Question yang ditanyakan oleh semua member
     {
         $data = Question::paginate(10);
         return view('question.index', [
@@ -31,7 +31,7 @@ class QuestionControllers extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create()  //menampilkan form add queston bagi member yang ingin bertanya dan akan di tampilkan di website
     {
         $data = Topic::all();
         return view('question.create', compact('data'));
@@ -43,7 +43,7 @@ class QuestionControllers extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request)  //setelah form di isi,hasil inputan akan di masukkan ke dalam database di table question
     {
         $request->validate([
             'question' => ['required'],
@@ -56,7 +56,7 @@ class QuestionControllers extends Controller
             'name' => Auth::user()->name,
             'user_id' => Auth::user()->id,
             'topic' => $request->topic,
-            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'created_at' => Carbon::now('Asia/Jakarta')->format('Y-m-d H:i:s'),
 
         ]);
 
@@ -69,7 +69,7 @@ class QuestionControllers extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id)  //menampilkan pada suatu question
     {
         $data = Question::where('user_id','=',$id)->paginate(10);
         return view('question.show', [
@@ -83,12 +83,13 @@ class QuestionControllers extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id)  //menampilkan form edit untuk question yang akan kita ubah questionnya
     {
         $data = Question::where('id','=',$id)->first();
         $topic = Topic::all();
+        $user = User::all();
 
-        return view('question.edit',compact('data','topic'));
+        return view('question.edit',compact('data','topic','user'));
     }
 
     /**
@@ -98,7 +99,7 @@ class QuestionControllers extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,$id)
+    public function update(Request $request,$id)  //hasil inputan dari form update, akan di update di database
     {
         $request->validate([
             'question' => ['required'],
@@ -111,7 +112,7 @@ class QuestionControllers extends Controller
             'name' => Auth::user()->name,
             'user_id' => Auth::user()->id,
             'topic' => $request->topic,
-            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'created_at' => Carbon::now('Asia/Jakarta')->format('Y-m-d H:i:s'),
 
         ]);
 
@@ -124,14 +125,17 @@ class QuestionControllers extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id)  //mendelete question yang dipilih
     {
         $data = Question::find($id);
+//        $answer = Answer::where('question_id','=',$id)->get();
+
+//        $answer->Delete();
         $data->Delete();
         return redirect('/MyQuestion/'.Auth::user()->id);
     }
 
-    public function search(Request $request)
+    public function search(Request $request)  //mencari question atau nama dari member, berdasarkan inputan user
     {
         $search = $request->get('search');
         $data = Question::where('question', 'like', '%' . $search . '%')->orWhere('name', 'like', '%' . $search . '%')->paginate(3);
@@ -141,7 +145,7 @@ class QuestionControllers extends Controller
         ]);
     }
 
-    public function answer($id){
+    public function answer($id){  //menampilkan question beserta aanswer dari member lainnya juga
         $answer = Answer::where('question_id','=',$id)->get();
         $data = Question::where('id','=',$id)->first();
 //        dd($answer);
@@ -152,7 +156,7 @@ class QuestionControllers extends Controller
         ]);
     }
 
-    public function add(Request $request)
+    public function add(Request $request)  //seteleh kita input pada text area di answer.blade, maka data akan dimasukkan ke dalam database di table answer
     {
         $request->validate([
             'answer' => ['required'],
@@ -162,14 +166,14 @@ class QuestionControllers extends Controller
             'answer' => $request->answer,
             'question_id' => $request->questionId,
             'user_id' => Auth::user()->id,
-            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'created_at' => Carbon::now('Asia/Jakarta')->format('Y-m-d H:i:s'),
 
         ]);
 
         return redirect('/MyQuestion/'.$request->questionId.'/answer');
     }
 
-    public function destroyanswer($id)
+    public function destroyanswer($id)  //delete answer sesuai user yang sekarang
     {
         $data = Answer::find($id);
         $dest = $data->question_id;
@@ -177,7 +181,7 @@ class QuestionControllers extends Controller
         return redirect('/MyQuestion/'.$dest.'/answer');
     }
 
-    public function switchstatus($id)
+    public function switchstatus($id)  //mengubah status question
     {
         $data = Question::where('id','=',$id)->first();
         if ($data->status == 'open'){

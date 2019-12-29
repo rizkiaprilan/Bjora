@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -9,12 +10,14 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use Notifiable;
-
+    use SoftDeletes;
+    protected $dates = ['deleted_at'];
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
+
     protected $fillable = [
         'name', 'email', 'password','gender','birthday','address','role','photo'
     ];
@@ -45,5 +48,9 @@ class User extends Authenticatable
     }
     public  function  answer(){
         return $this->hasOne('App\Answer');
+    }
+
+    public function  message(){
+        return $this->hasMany('App\Message');
     }
 }

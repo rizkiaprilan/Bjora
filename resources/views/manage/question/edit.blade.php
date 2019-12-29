@@ -12,12 +12,11 @@
                     <div class="card-header">{{ __('Edit Question') }}</div>
 
                     <div class="card-body">
-                        <form method="POST" action="/MyQuestion/{{$data->id}}/update" >
+                        <form method="POST" action="{{route('Question.update',$data->id)}}" >
                             @csrf
                             @method('PUT')
-
                             <div class="form-group row">
-                                <div class="col-md-7 offset-md-2">
+                                <div class="col-md-8 offset-md-2">
                                     <textarea name="question"
                                               class="form-control @error('question') is-invalid @enderror" required
                                               placeholder="Question">{{$data->question}}</textarea>
@@ -30,7 +29,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <div class="col-md-7 offset-md-2">
+                                <div class="col-md-8 offset-md-2">
                                     <select class="form-control "
                                             name="topic">
                                         <option disabled selected hidden>Select a Topic</option>
@@ -48,7 +47,7 @@
                             </div>
 
                             <div class="form-group row">
-                                <div class="col-md-7 offset-md-2">
+                                <div class="col-md-8 offset-md-2">
                                     <select class="form-control "
                                             name="user">
                                         <option disabled selected hidden>Select a User</option>
