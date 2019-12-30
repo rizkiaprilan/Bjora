@@ -16,6 +16,8 @@ class TopicsTableSeeder extends Seeder
             ['topic' => 'finance'],
             ['topic' => 'sport'],
             ['topic' => 'cryptocurrency'],
+            ['topic' => 'cooking'],
+            ['topic' => 'film'],
 
         ];
         foreach ($data as $d) {
